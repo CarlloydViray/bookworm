@@ -77,6 +77,9 @@ class _viewScreenState extends State<viewScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
+                        const SizedBox(
+                          height: 12,
+                        ),
                         Container(
                           decoration: BoxDecoration(
                             border: Border.all(
@@ -120,6 +123,7 @@ class _viewScreenState extends State<viewScreen> {
                           label: const Text('Add to my favorites'),
                           onPressed: () {
                             QuickAlert.show(
+                              backgroundColor: const Color(0xFFF4EEE0),
                               context: context,
                               type: QuickAlertType.confirm,
                               onConfirmBtnTap: () {
@@ -129,6 +133,7 @@ class _viewScreenState extends State<viewScreen> {
                                 print(desc);
                                 Navigator.pop(context);
                                 QuickAlert.show(
+                                    backgroundColor: const Color(0xFFF4EEE0),
                                     context: context,
                                     type: QuickAlertType.success);
                               },

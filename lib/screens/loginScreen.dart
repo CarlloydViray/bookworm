@@ -24,6 +24,7 @@ class _loginScreenState extends State<loginScreen> {
   void login() async {
     if (_formkey.currentState!.validate()) {
       QuickAlert.show(
+          backgroundColor: const Color(0xFFF4EEE0),
           context: context,
           type: QuickAlertType.loading,
           title: 'Checking user credentials...');
@@ -36,12 +37,14 @@ class _loginScreenState extends State<loginScreen> {
         print(err.code);
         if (err.code == 'user-not-found') {
           QuickAlert.show(
+              backgroundColor: const Color(0xFFF4EEE0),
               context: context,
               type: QuickAlertType.error,
               title: 'User does not exist!');
         }
         if (err.code == 'wrong-password') {
           QuickAlert.show(
+              backgroundColor: const Color(0xFFF4EEE0),
               context: context,
               type: QuickAlertType.error,
               title: 'Incorrect Password!');
@@ -66,7 +69,7 @@ class _loginScreenState extends State<loginScreen> {
                 child: Icon(
                   Icons.book_outlined,
                   size: 50,
-                  color: Color(0xffFAEAB1),
+                  color: Color(0xffFAF8F1),
                 )),
             const SizedBox(
               height: 10,

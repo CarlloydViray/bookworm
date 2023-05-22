@@ -1,9 +1,6 @@
-import 'package:bookworm_viraycarlloyd/authGate.dart';
-import 'package:bookworm_viraycarlloyd/screens/mainScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quickalert/quickalert.dart';
 
@@ -31,6 +28,7 @@ class _registerScreenState extends State<registerScreen> {
       QuickAlert.show(
         context: context,
         type: QuickAlertType.loading,
+        backgroundColor: const Color(0xFFF4EEE0),
       );
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -45,36 +43,41 @@ class _registerScreenState extends State<registerScreen> {
           .collection(collectionPath)
           .doc(uid)
           .set({'faves': []});
-      Navigator.push(
-        context,
-        CupertinoPageRoute(
-          builder: (context) {
-            return const mainScreen();
-          },
-        ),
-      );
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+      QuickAlert.show(
+          backgroundColor: const Color(0xFFF4EEE0),
+          context: context,
+          type: QuickAlertType.success,
+          text: 'Signed Up Successfully');
     } on FirebaseAuthException catch (ex) {
       if (ex.code == 'weak-password') {
         QuickAlert.show(
+            backgroundColor: const Color(0xFFF4EEE0),
             context: context,
             type: QuickAlertType.error,
             title:
                 'Your password is weak. Please enter more than 6 characters.');
+        Navigator.of(context).pop();
         return;
       }
       if (ex.code == 'email-already-in-use') {
         QuickAlert.show(
+            backgroundColor: const Color(0xFFF4EEE0),
             context: context,
             type: QuickAlertType.error,
             title:
                 'Your email is already registered. Please enter a new email address.');
+        Navigator.of(context).pop();
         return;
       }
       if (ex.code == 'null-usercredential') {
         QuickAlert.show(
+            backgroundColor: const Color(0xFFF4EEE0),
             context: context,
             type: QuickAlertType.error,
             title: 'An error occured while creating your account. Try again.');
+        Navigator.of(context).pop();
       }
 
       print(ex.code);
@@ -84,6 +87,7 @@ class _registerScreenState extends State<registerScreen> {
   void validateInput() {
     if (_formkey.currentState!.validate()) {
       QuickAlert.show(
+        backgroundColor: const Color(0xFFF4EEE0),
         context: context,
         type: QuickAlertType.confirm,
         text: null,

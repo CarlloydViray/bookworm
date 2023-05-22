@@ -17,6 +17,7 @@ class _mainScreenState extends State<mainScreen> {
   TextEditingController search = TextEditingController();
   List<dynamic> books = [];
   List<dynamic> full = [];
+  bool isLoading = false;
 
   Future<List<dynamic>> searchBooks(String query) async {
     final response = await http
@@ -96,12 +97,14 @@ class _mainScreenState extends State<mainScreen> {
                         onPressed: () {
                           _focusNode.unfocus();
                           setState(() {
-                            books = []; // Clear the book list when searching
+                            books = [];
+                            isLoading = true;
                           });
 
                           searchBooks(search.text).then((results) {
                             setState(() {
                               books = results;
+                              isLoading = false;
                             });
                           });
                         },

@@ -1,4 +1,6 @@
+import 'package:bookworm_viraycarlloyd/screens/faveScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:quickalert/quickalert.dart';
@@ -37,7 +39,10 @@ class _menuScreenState extends State<menuScreen> {
                 leading: const Icon(Icons.home),
                 title: const Text('Home'),
                 onTap: () {
-                  ZoomDrawer.of(context)!.close();
+                  Navigator.of(context)
+                      .push(CupertinoPageRoute(builder: (context) {
+                    return const faveScreen();
+                  }));
                 },
                 iconColor: const Color(0xFFF4EEE0),
                 textColor: const Color(0xFFF4EEE0),
@@ -47,6 +52,7 @@ class _menuScreenState extends State<menuScreen> {
                 title: const Text('Logout'),
                 onTap: () async {
                   QuickAlert.show(
+                      backgroundColor: const Color(0xFFF4EEE0),
                       context: context,
                       type: QuickAlertType.confirm,
                       title: 'Logout?',
