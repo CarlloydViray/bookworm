@@ -1,4 +1,4 @@
-import 'package:bookworm_viraycarlloyd/screens/registerScree.dart';
+import 'package:bookworm_viraycarlloyd/screens/registerScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -56,7 +56,7 @@ class _loginScreenState extends State<loginScreen> {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            title: Text('LOGIN'),
+            title: const Text('LOGIN'),
           ),
           body: Form(
             key: _formkey,
@@ -64,7 +64,7 @@ class _loginScreenState extends State<loginScreen> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     backgroundColor: Colors.red,
                   ),
 
@@ -77,6 +77,7 @@ class _loginScreenState extends State<loginScreen> {
                       if (!EmailValidator.validate(value)) {
                         return 'Please enter a valid email address';
                       }
+                      return null;
                     },
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
@@ -98,6 +99,7 @@ class _loginScreenState extends State<loginScreen> {
                       if (value.length <= 6) {
                         return 'Password must be more than 6 characters';
                       }
+                      return null;
                     },
                     obscureText: obscurePassword,
                     controller: passwordController,
@@ -125,7 +127,7 @@ class _loginScreenState extends State<loginScreen> {
                       Navigator.push(
                         context,
                         CupertinoPageRoute(builder: (context) {
-                          return registerScreen();
+                          return const registerScreen();
                         }),
                       );
                     },

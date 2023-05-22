@@ -1,10 +1,8 @@
 import 'dart:convert';
+import 'package:bookworm_viraycarlloyd/screens/viewScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:http/http.dart' as http;
 
 class mainScreen extends StatefulWidget {
@@ -15,8 +13,10 @@ class mainScreen extends StatefulWidget {
 }
 
 class _mainScreenState extends State<mainScreen> {
+  final FocusNode _focusNode = FocusNode();
   TextEditingController search = TextEditingController();
   List<dynamic> books = [];
+  List<dynamic> full = [];
 
   Future<List<dynamic>> searchBooks(String query) async {
     final response = await http
@@ -45,13 +45,13 @@ class _mainScreenState extends State<mainScreen> {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            title: Text('MAIN'),
+            title: const Text('MAIN'),
             actions: [
               ElevatedButton(
                   onPressed: () async {
                     FirebaseAuth.instance.signOut();
                   },
-                  child: Text('Signout'))
+                  child: const Text('Signout'))
             ],
           ),
           body: Padding(
@@ -62,12 +62,14 @@ class _mainScreenState extends State<mainScreen> {
                   alignment: Alignment.centerRight,
                   children: [
                     TextField(
+                      focusNode: _focusNode,
                       controller: search,
-                      decoration: InputDecoration(label: Text('Book')),
+                      decoration: const InputDecoration(label: Text('Book')),
                     ),
                     Positioned(
                       child: ElevatedButton(
                         onPressed: () {
+                          _focusNode.unfocus();
                           setState(() {
                             books = []; // Clear the book list when searching
                           });
@@ -78,12 +80,12 @@ class _mainScreenState extends State<mainScreen> {
                             });
                           });
                         },
-                        child: Icon(Icons.search),
+                        child: const Icon(Icons.search),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Expanded(
@@ -97,6 +99,8 @@ class _mainScreenState extends State<mainScreen> {
                       final author =
                           book['author_name']?.join(', ') ?? 'Unknown Author';
                       final title = book['title'];
+                      final publishYear = book['first_publish_year'];
+                      final bookKey = book['key'];
 
                       return FutureBuilder<http.Response>(
                         future: http.get(Uri.parse(
@@ -109,7 +113,7 @@ class _mainScreenState extends State<mainScreen> {
                               child: ListTile(
                                 title: Text(title),
                                 subtitle: Text(author),
-                                leading: CircularProgressIndicator(),
+                                leading: const CircularProgressIndicator(),
                               ),
                             );
                           }
@@ -117,16 +121,30 @@ class _mainScreenState extends State<mainScreen> {
                           if (snapshot.hasData) {
                             final response = snapshot.data!;
                             if (response.statusCode == 200) {
-                              return Card(
-                                elevation: 50,
-                                child: ListTile(
-                                    title: Text(title),
-                                    subtitle: Text(author),
-                                    leading: Image.network(
-                                      'https://covers.openlibrary.org/b/isbn/$isbn-M.jpg',
-                                      height: 50,
-                                      width: 50,
-                                    )),
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(context,
+                                      CupertinoPageRoute(builder: (context) {
+                                    return viewScreen(
+                                      isbn: isbn,
+                                      title: title,
+                                      author: author,
+                                      publish_year: publishYear,
+                                      bookKey: bookKey,
+                                    );
+                                  }));
+                                },
+                                child: Card(
+                                  elevation: 50,
+                                  child: ListTile(
+                                      title: Text(title),
+                                      subtitle: Text(author),
+                                      leading: Image.network(
+                                        'https://covers.openlibrary.org/b/isbn/$isbn-M.jpg',
+                                        height: 50,
+                                        width: 50,
+                                      )),
+                                ),
                               );
                             }
                           }
@@ -136,7 +154,7 @@ class _mainScreenState extends State<mainScreen> {
                             child: ListTile(
                               title: Text(title),
                               subtitle: Text(author),
-                              leading: Icon(
+                              leading: const Icon(
                                 Icons.image_not_supported,
                                 size: 50,
                               ),
