@@ -105,24 +105,36 @@ class _viewScreenState extends State<viewScreen> {
                         const SizedBox(
                           height: 12,
                         ),
-                        ElevatedButton(
-                            onPressed: () {
-                              QuickAlert.show(
-                                context: context,
-                                type: QuickAlertType.confirm,
-                                onConfirmBtnTap: () {
-                                  print(widget.title);
-                                  print(widget.author);
-                                  print(widget.isbn);
-                                  print(desc);
-                                  Navigator.pop(context);
-                                  QuickAlert.show(
-                                      context: context,
-                                      type: QuickAlertType.success);
-                                },
-                              );
-                            },
-                            child: const Text('Add to my favorites'))
+                        ElevatedButton.icon(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                const Color(
+                                    0xff675D50)), // Change the background color
+                            foregroundColor: MaterialStateProperty.all<Color>(
+                                Colors.white), // Change the text color
+                          ),
+                          icon: const Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                          ),
+                          label: const Text('Add to my favorites'),
+                          onPressed: () {
+                            QuickAlert.show(
+                              context: context,
+                              type: QuickAlertType.confirm,
+                              onConfirmBtnTap: () {
+                                print(widget.title);
+                                print(widget.author);
+                                print(widget.isbn);
+                                print(desc);
+                                Navigator.pop(context);
+                                QuickAlert.show(
+                                    context: context,
+                                    type: QuickAlertType.success);
+                              },
+                            );
+                          },
+                        )
                       ],
                     ),
                   ),

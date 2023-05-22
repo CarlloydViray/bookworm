@@ -36,6 +36,7 @@ dependencies:
   firebase_core: ^2.12.0
   flutter:
     sdk: flutter
+  flutter_zoom_drawer: ^3.0.4+1
   google_fonts: ^4.0.4
   http: ^0.13.6
   quickalert: ^1.0.1

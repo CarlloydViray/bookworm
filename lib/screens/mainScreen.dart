@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:bookworm_viraycarlloyd/screens/viewScreen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:http/http.dart' as http;
 
 class mainScreen extends StatefulWidget {
@@ -45,14 +45,13 @@ class _mainScreenState extends State<mainScreen> {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            title: const Text('MAIN'),
-            actions: [
-              ElevatedButton(
-                  onPressed: () async {
-                    FirebaseAuth.instance.signOut();
-                  },
-                  child: const Text('Signout'))
-            ],
+            centerTitle: true,
+            title: const Text('Bookworm'),
+            leading: IconButton(
+                onPressed: () {
+                  ZoomDrawer.of(context)!.toggle();
+                },
+                icon: const Icon(Icons.more_vert_rounded)),
           ),
           body: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -61,13 +60,39 @@ class _mainScreenState extends State<mainScreen> {
                 Stack(
                   alignment: Alignment.centerRight,
                   children: [
-                    TextField(
-                      focusNode: _focusNode,
-                      controller: search,
-                      decoration: const InputDecoration(label: Text('Book')),
+                    Card(
+                      child: TextField(
+                        onSubmitted: (value) {
+                          _focusNode.unfocus();
+                          setState(() {
+                            books = [];
+                          });
+
+                          searchBooks(search.text).then((results) {
+                            setState(() {
+                              books = results;
+                            });
+                          });
+                        },
+                        textCapitalization: TextCapitalization.words,
+                        focusNode: _focusNode,
+                        controller: search,
+                        decoration: const InputDecoration(
+                          labelText: 'Book',
+                          filled: true,
+                          fillColor: Colors.white,
+                          labelStyle: TextStyle(
+                            color: Colors.black, // Set the desired text color
+                          ),
+                        ),
+                      ),
                     ),
                     Positioned(
-                      child: ElevatedButton(
+                      child: IconButton(
+                        icon: const Icon(Icons.search),
+                        color: Colors.black,
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.red,
                         onPressed: () {
                           _focusNode.unfocus();
                           setState(() {
@@ -80,13 +105,21 @@ class _mainScreenState extends State<mainScreen> {
                             });
                           });
                         },
-                        child: const Icon(Icons.search),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 5,
+                ),
+                const Divider(
+                  thickness: 5,
+                  color: Color(0xffC58940),
+                  endIndent: 5,
+                  indent: 5,
+                ),
+                const SizedBox(
+                  height: 5,
                 ),
                 Expanded(
                   child: ListView.builder(
@@ -135,7 +168,8 @@ class _mainScreenState extends State<mainScreen> {
                                   }));
                                 },
                                 child: Card(
-                                  elevation: 50,
+                                  elevation: 10,
+                                  shadowColor: const Color(0xffC58940),
                                   child: ListTile(
                                       title: Text(title),
                                       subtitle: Text(author),
