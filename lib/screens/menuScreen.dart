@@ -2,6 +2,7 @@ import 'package:bookworm_viraycarlloyd/screens/faveScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_zoom_drawer/config.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:quickalert/quickalert.dart';
 
@@ -13,6 +14,7 @@ class menuScreen extends StatefulWidget {
 }
 
 class _menuScreenState extends State<menuScreen> {
+  final zoomDrawerController = ZoomDrawerController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -39,10 +41,21 @@ class _menuScreenState extends State<menuScreen> {
                 leading: const Icon(Icons.home),
                 title: const Text('Home'),
                 onTap: () {
-                  Navigator.of(context)
-                      .push(CupertinoPageRoute(builder: (context) {
-                    return const faveScreen();
-                  }));
+                  ZoomDrawer.of(context)!.close();
+                },
+                iconColor: const Color(0xFFF4EEE0),
+                textColor: const Color(0xFFF4EEE0),
+              ),
+              ListTile(
+                leading: const Icon(Icons.favorite),
+                title: const Text('My Favorites'),
+                onTap: () {
+                  Navigator.of(context).push(
+                    CupertinoPageRoute(builder: (context) {
+                      return const faveScreen();
+                    }),
+                  );
+                  ZoomDrawer.of(context)!.close();
                 },
                 iconColor: const Color(0xFFF4EEE0),
                 textColor: const Color(0xFFF4EEE0),

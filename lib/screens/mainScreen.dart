@@ -52,7 +52,14 @@ class _mainScreenState extends State<mainScreen> {
                 onPressed: () {
                   ZoomDrawer.of(context)!.toggle();
                 },
-                icon: const Icon(Icons.more_vert_rounded)),
+                icon: const Icon(Icons.menu)),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: IconButton(
+                    onPressed: () {}, icon: const Icon(Icons.book_outlined)),
+              )
+            ],
           ),
           body: Padding(
             padding: const EdgeInsets.all(8.0),
