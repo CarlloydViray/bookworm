@@ -125,7 +125,10 @@ class _viewScreenState extends State<viewScreen> {
                 ),
                 Text(
                   widget.title,
-                  style: const TextStyle(fontSize: 30),
+                  style: const TextStyle(
+                    fontSize: 30,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(
                   height: 12,

@@ -17,7 +17,6 @@ class _mainScreenState extends State<mainScreen> {
   final FocusNode _focusNode = FocusNode();
   TextEditingController search = TextEditingController();
   List<dynamic> books = [];
-  List<dynamic> full = [];
   bool isLoading = false;
 
   Future<List<dynamic>> searchBooks(String query) async {
@@ -96,7 +95,8 @@ class _mainScreenState extends State<mainScreen> {
                         focusNode: _focusNode,
                         controller: search,
                         decoration: const InputDecoration(
-                          labelText: 'Book',
+                          labelText: 'Search Book Title',
+                          hintText: 'Book Title',
                           filled: true,
                           fillColor: Colors.white,
                           labelStyle: TextStyle(
@@ -106,25 +106,35 @@ class _mainScreenState extends State<mainScreen> {
                       ),
                     ),
                     Positioned(
-                      child: IconButton(
-                        icon: const Icon(Icons.search),
-                        color: Colors.black,
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.red,
-                        onPressed: () {
-                          _focusNode.unfocus();
-                          setState(() {
-                            books = [];
-                            isLoading = true;
-                          });
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                search.clear();
+                              },
+                              icon: const Icon(Icons.clear)),
+                          IconButton(
+                            icon: const Icon(Icons.search),
+                            color: Colors.black,
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.red,
+                            onPressed: () {
+                              _focusNode.unfocus();
+                              setState(() {
+                                books = [];
+                                isLoading = true;
+                              });
 
-                          searchBooks(search.text).then((results) {
-                            setState(() {
-                              books = results;
-                              isLoading = false;
-                            });
-                          });
-                        },
+                              searchBooks(search.text).then((results) {
+                                setState(() {
+                                  books = results;
+                                  isLoading = false;
+                                });
+                              });
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   ],

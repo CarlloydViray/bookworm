@@ -91,6 +91,7 @@ class _myFavesScreenViewState extends State<myFavesScreenView> {
                 Text(
                   widget.title,
                   style: const TextStyle(fontSize: 30),
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(
                   height: 12,
