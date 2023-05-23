@@ -32,8 +32,10 @@ class _loginScreenState extends State<loginScreen> {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(
               email: emailController.text, password: passwordController.text)
-          .then((value) => Navigator.pop(context))
-          .catchError((err) {
+          .then((value) {
+        Navigator.pop(context);
+        QuickAlert.show(context: context, type: QuickAlertType.success);
+      }).catchError((err) {
         print(err.code);
         if (err.code == 'user-not-found') {
           QuickAlert.show(
@@ -69,7 +71,7 @@ class _loginScreenState extends State<loginScreen> {
                 child: Icon(
                   Icons.book_outlined,
                   size: 50,
-                  color: Color(0xffFAF8F1),
+                  color: Colors.black,
                 )),
             const SizedBox(
               height: 10,
