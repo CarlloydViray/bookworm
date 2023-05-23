@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:http/http.dart' as http;
+import 'package:quickalert/quickalert.dart';
 
 class mainScreen extends StatefulWidget {
   const mainScreen({super.key});
@@ -57,7 +58,16 @@ class _mainScreenState extends State<mainScreen> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: IconButton(
-                    onPressed: () {}, icon: const Icon(Icons.book_outlined)),
+                    onPressed: () {
+                      QuickAlert.show(
+                          context: context,
+                          type: QuickAlertType.info,
+                          title: 'About me',
+                          text:
+                              'I am Carlloyd Viray, student of PSU UC. Currently a third year student under the BSIT Program',
+                          confirmBtnText: 'ediwow');
+                    },
+                    icon: const Icon(Icons.book_outlined)),
               )
             ],
           ),
@@ -90,7 +100,7 @@ class _mainScreenState extends State<mainScreen> {
                           filled: true,
                           fillColor: Colors.white,
                           labelStyle: TextStyle(
-                            color: Colors.black, // Set the desired text color
+                            color: Colors.black,
                           ),
                         ),
                       ),

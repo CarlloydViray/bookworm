@@ -15,6 +15,8 @@ class menuScreen extends StatefulWidget {
 
 class _menuScreenState extends State<menuScreen> {
   final zoomDrawerController = ZoomDrawerController();
+  final userID = FirebaseAuth.instance.currentUser!.uid;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

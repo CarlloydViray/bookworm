@@ -1,6 +1,8 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:bookworm_viraycarlloyd/screens/myFavesViewScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -90,7 +92,17 @@ class _faveScreenState extends State<faveScreen> {
                           ],
                           child: GestureDetector(
                             onTap: () {
-                              print('TAPPED');
+                              Navigator.of(context)
+                                  .push(CupertinoPageRoute(builder: (context) {
+                                return myFavesScreenView(
+                                  isbn: data[index]['isbn'],
+                                  title: data[index]['title'],
+                                  author: data[index]['author'],
+                                  publish_year: data[index]['publish_year'],
+                                  bookKey: data[index]['bookKey'],
+                                  position: position,
+                                );
+                              }));
                             },
                             child: Card(
                               elevation: 30,
