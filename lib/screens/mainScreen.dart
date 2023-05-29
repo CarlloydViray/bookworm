@@ -20,12 +20,17 @@ class _mainScreenState extends State<mainScreen> {
   bool isLoading = false;
 
   Future<List<dynamic>> searchBooks(String query) async {
+    QuickAlert.show(
+        context: context,
+        type: QuickAlertType.loading,
+        barrierDismissible: false);
     final response = await http
         .get(Uri.parse('https://openlibrary.org/search.json?q=$query'));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       if (data['docs'] != null) {
+        Navigator.pop(context);
         return data['docs'];
       } else {
         throw Exception('No books found');

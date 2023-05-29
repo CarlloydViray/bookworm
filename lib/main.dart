@@ -35,20 +35,22 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: const Color(0xffFAF8F1),
           cardColor: const Color(0xffE5BA73)),
       debugShowCheckedModeBanner: false,
-      home: AnimatedSplashScreen(
-        backgroundColor: const Color(0xffFAF8F1),
-        duration: 3000,
-        splashTransition: SplashTransition.scaleTransition,
-        splash: const CircleAvatar(
-          backgroundColor: Color(0xffC58940),
-          maxRadius: 800,
-          child: Icon(
-            Icons.book_outlined,
-            size: 50,
-            color: Colors.black,
+      home: SafeArea(
+        child: AnimatedSplashScreen(
+          backgroundColor: const Color(0xffFAF8F1),
+          duration: 3000,
+          splashTransition: SplashTransition.scaleTransition,
+          splash: const CircleAvatar(
+            backgroundColor: Color(0xffC58940),
+            maxRadius: 800,
+            child: Icon(
+              Icons.book_outlined,
+              size: 50,
+              color: Colors.black,
+            ),
           ),
+          nextScreen: const drawerScreen(),
         ),
-        nextScreen: const drawerScreen(),
       ),
     );
   }
